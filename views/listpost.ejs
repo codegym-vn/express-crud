@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Books</title>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script type="text/javascript">
+    const detail = (id) => {
+      window.open('http://localhost:7000/post/detail'+'?'+'id='+id);
+    };
+    const deleteBook = async (id) => {
+      await $.ajax({
+        url: "http://localhost:7000/post/delete",
+        type: "DELETE",
+        data: JSON.stringify({ "id": id }),
+        dataType: "json",
+        contentType:"application/json",
+        success: function (result) {
+          location.reload();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          console.log(xhr.status);
+          console.log(thrownError);
+        }
+      });
+      location.reload();
+    };
+    
+  </script>
+</head>
+
+<body>
+<h2>List Post</h2>
+<% for(const post of posts) { %>
+  <h3>
+    <%= post.title %>
+  </h3>
+  <p>
+    <%= post.content %>
+  </p>
+  <button onclick="detail('<%= post.id %>')">Detail</button>
+  <button onclick="deleteBook('<%= post.id %>')">Delete</button>
+  </br>
+  <% } %>
+</body>
+
+</html>
